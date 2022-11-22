@@ -1,30 +1,45 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../Components/Register.css";
+import Axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 function Register() {
   const [username, SetUsername] = useState("");
   const [password, SetPassword] = useState("");
+  const [nama, Setnama] = useState("");
   const [usereror, Seteror] = useState("");
   const [psweror, Setpsw] = useState("");
+  let navigate = useNavigate();
 
-  const Login = () => {
+  const Register = () => {
     //   Cek username
     if (username === "") {
       Seteror("Silahkan isi username anda");
       // Cek Password
     } else if (password === "") {
-      Setpsw("SIlahkan isi Passwordnya juga");
+      Setpsw("Silahkan isi Passwordnya juga");
+    } else if (nama === "") {
+      Setnama("silahkan isi Nama anda");
+    } else {
+      // Proses Register ketika data sudah Tervalidasi
+      // console.log(username, password, nama);
+      Axios.post("http://localhost:3001/register", {
+        username: username,
+        password: password,
+        nama: nama,
+      });
     }
   };
   return (
     <>
       <div className="box">
         <div className="container py-5">
-          <h1 className="text-muted"> Register</h1>
-          <p className="text-muted">Please Log in to autenticate</p>
+          <h1 className="text-light"> Register</h1>
+          <p className="text-light">Please Log in to autenticate</p>
           <hr />
-          <div className="form-group">
+          <div className="form-group text-light">
             <label>Username</label>
             <input
               type="text"
@@ -35,7 +50,7 @@ function Register() {
             />
             <p className=" text-danger p-2 m-3"> {usereror}</p>
           </div>
-          <div className="form-group">
+          <div className="form-group text-light">
             <label>Password</label>
             <input
               type="password"
@@ -46,13 +61,19 @@ function Register() {
             />
             <p className=" text-danger p-2 m-3 ">{psweror}</p>
           </div>
-          <div className="form-group">
+          <div className="form-group text-light">
             <label>NAMA</label>
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) => {
+                Setnama(e.target.value);
+              }}
+            />
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary mt-3" onClick={Login}>
+            <button className="btn btn-primary mt-3" onClick={Register}>
               Register
             </button>
           </div>
