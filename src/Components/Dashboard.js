@@ -1,9 +1,11 @@
-const { useEffect } = require("react");
-const { jwt_decode } = require("react");
-const { useNavigate } = require("react-router-dom");
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { Navbar } from "react-bootstrap";
 
 function Dashboard() {
   let navigate = useNavigate();
+
   var username;
   if (sessionStorage.getItem("token") === null) {
     username = "";
@@ -18,46 +20,45 @@ function Dashboard() {
     navigate("/");
   };
 
-  useEffect(
-    () => {
-      if (sessionStorage.getItem("token") === null) {
-        navigate("/");
-      } else {
-        navigate("/dashboard");
-      }
-    },{ navigate } );
+  useEffect(() => {
+    if (sessionStorage.getItem("token") === null) {
+      navigate("/");
+    } else {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-light shadow">
-        <div className="container">
-          <h3 className="text-muted"> Dashboard</h3>
-          <div className="">
-            <ul className=" navbar-nav me-auto">
-              <li className="nav-item">
-                <button className="btn btn-danger" onClick={logout}>
-                  Logout
-                </button>
-              </li>
-            </ul>
+      <Navbar bg="light" className="shadow py-3">
+        <div className="container-fluid px-5">
+          <div className="navbar-brand text-dark" href="#home">
+            Navbar
           </div>
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <button className="btn btn-primary" onClick={logout}>
+                Logout
+              </button>
+            </li>
+          </ul>
         </div>
-      </nav>
+      </Navbar>
       <div className="container-fluid bg-light">
         <div className="container py-5">
-          Selamat Datang,<b>{username}</b>!
+          Selamat Datang <b>{username}</b>!
           <p>
-            ini adalah halaman Dashboard implementasi login dan register menggunakan React-js
-            ExpressJS-Mysql
+            Ini adalah halaman dashboard implementasi Login dan Register menggunakan
+            ReactJS-ExpressJS-MySql
           </p>
           <blockquote>
-            harapannya dengan pembelajaran ini perserta didik sudah mampu untuk membuat dan
+            Harapannya dengan pembelajaran ini peserta didik sudah mampu untuk membuat dan
             mengimplementasikan
           </blockquote>
         </div>
       </div>
-      <div className=" container-fluid fixed-bottom py-3 text-center bg-secondary text-light">
-        Copyright &copy; Iqbal Alfarisi A.P - 2022
+      <div className="container-fluid fixed-bottom py-3 text-center bg-secondary text-light">
+        Copyright &copy; IQBAL ALFARISI AMBIYA P - 2022
       </div>
     </>
   );
